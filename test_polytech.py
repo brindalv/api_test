@@ -37,6 +37,17 @@ def test_parameters():
     assert response.status_code == 200
 
 
+def test_response_format():
+    """A testcase to verify if the correct format is available on the
+    response"""
+    response = requests.get(
+        build_url('data', ['M'], ['JPY', 'EUR']),
+        headers={'Accept': 'text/csv'}
+        )
+    response.raise_for_status()
+    assert response.headers['Content-Type'] == 'text/csv'
+
+
 def test_invalidurl():
     """A testcase to verify if an expected failure scenario actually happens"""
     response = requests.get(
@@ -89,3 +100,4 @@ def test_if_modified_since():
         headers={'If-Modified-Since': last_modified}
         )
     assert response.status_code == 304
+
